@@ -1,0 +1,2276 @@
+:root {
+  --拾遗-accent: var(--SmartThemeQuoteColor, #79b8ff);
+  --拾遗-accent-soft: color-mix(in srgb, var(--拾遗-accent) 18%, transparent);
+  --拾遗-bg: color-mix(in srgb, var(--SmartThemeBlurTintColor, #17171b) 94%, #090a0d 6%);
+  --拾遗-surface: color-mix(in srgb, var(--SmartThemeBlurTintColor, #202126) 88%, #fff 3%);
+  --拾遗-surface-raised: color-mix(
+    in srgb,
+    var(--SmartThemeBlurTintColor, #26272c) 82%,
+    #fff 6%
+  );
+  --拾遗-border: color-mix(in srgb, var(--SmartThemeBorderColor, #777) 58%, transparent);
+  --拾遗-border-soft: color-mix(in srgb, var(--拾遗-border) 54%, transparent);
+  --拾遗-text: var(--SmartThemeBodyColor, #f2f2f3);
+  --拾遗-muted: var(--SmartThemeEmColor, #aeb0b7);
+  --拾遗-success: #62d391;
+  --拾遗-warning: #ffc56e;
+  --拾遗-danger: #ff8d8d;
+  --拾遗-radius-lg: 22px;
+  --拾遗-radius-md: 14px;
+  --拾遗-radius-sm: 10px;
+  --拾遗-shadow: 0 26px 90px rgb(0 0 0 / 58%), 0 1px 0 rgb(255 255 255 / 6%) inset;
+}
+
+body.拾遗-modal-open {
+  overflow: hidden;
+}
+
+.拾遗-center-overlay[hidden],
+.拾遗-v2-toast[hidden],
+.拾遗-center-page[hidden],
+.拾遗-information-box[hidden],
+.拾遗-failure-box[hidden],
+.拾遗-backfill-card[hidden],
+.拾遗-module-progress-list[hidden],
+.拾遗-pipeline[hidden],
+.拾遗-field[hidden],
+.拾遗-button[hidden] {
+  display: none;
+}
+
+.拾遗-center-overlay {
+  position: fixed;
+  z-index: 10050;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  height: var(--拾遗-viewport-height, 100dvh);
+  padding: clamp(12px, 2.5vw, 28px);
+  color: var(--拾遗-text);
+  background: rgb(3 4 7 / 67%);
+  backdrop-filter: blur(9px) saturate(0.85);
+  -webkit-backdrop-filter: blur(9px) saturate(0.85);
+  animation: 拾遗-fade-in 150ms ease-out;
+}
+
+.拾遗-center-dialog {
+  --拾遗-drag-x: 0px;
+  --拾遗-drag-y: 0px;
+  --拾遗-sheet-offset: 0px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  width: min(960px, 92vw);
+  min-width: min(660px, 86vw);
+  max-width: 92vw;
+  height: min(86dvh, 900px);
+  min-height: min(560px, 72dvh);
+  max-height: 92dvh;
+  overflow: hidden;
+  resize: both;
+  border: 1px solid var(--拾遗-border);
+  border-radius: var(--拾遗-radius-lg);
+  outline: none;
+  background:
+    radial-gradient(circle at 9% -8%, var(--拾遗-accent-soft), transparent 34%),
+    var(--拾遗-bg);
+  box-shadow: var(--拾遗-shadow);
+  transform: translate3d(var(--拾遗-drag-x), var(--拾遗-drag-y), 0);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 180ms ease;
+  animation: 拾遗-dialog-in 180ms ease-out;
+}
+
+.拾遗-center-dialog:focus-visible {
+  border-color: color-mix(in srgb, var(--拾遗-accent) 70%, #fff 8%);
+  box-shadow:
+    var(--拾遗-shadow),
+    0 0 0 2px var(--拾遗-accent-soft);
+}
+
+.拾遗-center-dialog--dragging {
+  user-select: none;
+  transition: none;
+}
+
+.拾遗-center-header {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 76px;
+  padding: 14px 18px 12px 20px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.拾遗-center-dialog--dragging .拾遗-center-header {
+  cursor: grabbing;
+}
+
+.拾遗-center-brand {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.拾遗-center-brand strong {
+  overflow: hidden;
+  color: var(--拾遗-text);
+  font-size: clamp(1rem, 2vw, 1.16rem);
+  font-weight: 720;
+  letter-spacing: 0.01em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.拾遗-center-brand small,
+.拾遗-center-page > small,
+.拾遗-field small,
+.拾遗-section__header small,
+.拾遗-pipeline__copy small {
+  color: var(--拾遗-muted);
+}
+
+.拾遗-live-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 2px 10px;
+  color: var(--拾遗-muted);
+  border: 1px solid var(--拾遗-border-soft);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 4%);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.拾遗-live-status[data-status="running"],
+.拾遗-live-status[data-status="finalizing"] {
+  color: var(--拾遗-accent);
+  border-color: color-mix(in srgb, var(--拾遗-accent) 46%, transparent);
+  background: var(--拾遗-accent-soft);
+}
+
+.拾遗-live-status[data-status="complete"],
+.拾遗-live-status[data-status="recall_ready"] {
+  color: var(--拾遗-success);
+}
+
+.拾遗-live-status[data-status="failed"],
+.拾遗-live-status[data-status="waiting_for_user"] {
+  color: var(--拾遗-warning);
+}
+
+.拾遗-center-nav {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(88px, 1fr));
+  gap: 5px;
+  padding: 0 16px 11px;
+  border-bottom: 1px solid var(--拾遗-border-soft);
+}
+
+.拾遗-button {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  min-height: 38px;
+  margin: 0;
+  white-space: normal;
+  transition:
+    border-color 140ms ease,
+    background 140ms ease,
+    color 140ms ease,
+    transform 100ms ease;
+}
+
+.拾遗-button:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--拾遗-accent) 52%, var(--拾遗-border));
+  background: color-mix(in srgb, var(--拾遗-accent) 10%, transparent);
+}
+
+.拾遗-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.拾遗-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  min-height: 42px;
+  padding: 7px 10px;
+  color: var(--拾遗-muted);
+  border: 1px solid transparent;
+  border-radius: 11px;
+  background: transparent;
+  white-space: nowrap;
+}
+
+.拾遗-tab > span {
+  white-space: nowrap;
+}
+
+.拾遗-tab.active,
+.拾遗-module-tab.active,
+.拾遗-primary {
+  color: var(--拾遗-text);
+  border-color: color-mix(in srgb, var(--拾遗-accent) 52%, transparent);
+  background: var(--拾遗-accent-soft);
+  box-shadow: 0 1px 0 rgb(255 255 255 / 7%) inset;
+}
+
+.拾遗-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.拾遗-center-body {
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.拾遗-center-page {
+  box-sizing: border-box;
+  display: grid;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  gap: 14px;
+  padding: 18px 20px calc(30px + env(safe-area-inset-bottom));
+}
+
+.拾遗-status-card,
+.拾遗-information-box,
+.拾遗-failure-box,
+.拾遗-backfill-card,
+.拾遗-record-card,
+.拾遗-privacy-warning,
+.拾遗-section {
+  box-sizing: border-box;
+  border: 1px solid var(--拾遗-border-soft);
+  border-radius: var(--拾遗-radius-md);
+  background:
+    linear-gradient(145deg, rgb(255 255 255 / 3%), transparent 45%), var(--拾遗-surface);
+  overflow-wrap: anywhere;
+}
+
+.拾遗-status-card,
+.拾遗-information-box,
+.拾遗-failure-box,
+.拾遗-backfill-card,
+.拾遗-privacy-warning {
+  padding: 14px 15px;
+}
+
+.拾遗-status-card--hero {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  overflow: hidden;
+}
+
+.拾遗-status-card--hero::after {
+  position: absolute;
+  top: -45px;
+  right: -30px;
+  width: 145px;
+  height: 145px;
+  border-radius: 50%;
+  background: var(--拾遗-accent-soft);
+  filter: blur(18px);
+  content: "";
+  pointer-events: none;
+}
+
+.拾遗-status-card--hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.拾遗-status-card--hero > strong {
+  font-size: 1.04rem;
+}
+
+.拾遗-status-card--hero p,
+.拾遗-task-summary p {
+  margin: 0;
+  color: var(--拾遗-muted);
+  line-height: 1.5;
+}
+
+.拾遗-progress-track {
+  height: 7px;
+  margin-top: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 9%);
+}
+
+.拾遗-progress-value {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    var(--拾遗-accent),
+    color-mix(in srgb, var(--拾遗-accent) 64%, #9bf0c0)
+  );
+  box-shadow: 0 0 14px var(--拾遗-accent-soft);
+  transition: width 220ms ease;
+}
+
+.拾遗-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.拾遗-metric-card {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--拾遗-border-soft);
+  border-radius: 12px;
+  background: rgb(255 255 255 / 2.8%);
+}
+
+.拾遗-metric-card strong {
+  overflow: hidden;
+  font-size: 1.16rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.拾遗-metric-card span {
+  color: var(--拾遗-muted);
+  font-size: 0.78rem;
+}
+
+.拾遗-module-progress-list,
+.拾遗-record-list,
+.拾遗-settings-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.拾遗-module-progress-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.拾遗-backfill-card {
+  display: grid;
+  gap: 10px;
+  border-color: color-mix(in srgb, var(--拾遗-accent) 38%, var(--拾遗-border-soft));
+}
+
+.拾遗-backfill-card p {
+  margin: 0;
+  color: var(--拾遗-muted);
+  line-height: 1.5;
+}
+
+.拾遗-backfill-card > small {
+  color: var(--拾遗-muted);
+}
+
+.拾遗-backfill-controls {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.55fr) minmax(190px, 1fr);
+  align-items: end;
+  gap: 8px;
+}
+
+.拾遗-module-progress {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 1px solid var(--拾遗-border-soft);
+  border-radius: 11px;
+  background: rgb(255 255 255 / 2.2%);
+}
+
+.拾遗-module-progress strong {
+  min-width: 0;
+  font-size: 0.9rem;
+}
+
+.拾遗-module-progress span {
+  color: var(--拾遗-muted);
+  font-size: 0.78rem;
+  text-align: right;
+}
+
+.拾遗-module-progress[data-status="COMMITTED"] span {
+  color: var(--拾遗-success);
+}
+
+.拾遗-module-progress[data-status="RUNNING"] {
+  border-color: color-mix(in srgb, var(--拾遗-accent) 44%, transparent);
+}
+
+.拾遗-module-progress[data-status="NEEDS_USER"] span,
+.拾遗-failure-box {
+  color: var(--拾遗-warning);
+  border-color: color-mix(in srgb, var(--拾遗-warning) 50%, transparent);
+}
+
+.拾遗-overview-actions,
+.拾遗-record-actions,
+.拾遗-page-actions,
+.拾遗-two-actions,
+.拾遗-profile-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.拾遗-failure-box {
+  display: grid;
+  gap: 11px;
+}
+
+.拾遗-task-summary {
+  display: grid;
+  gap: 6px;
+}
+
+.拾遗-pipeline {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.拾遗-pipeline > li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  min-height: 58px;
+  padding: 7px 10px;
+}
+
+.拾遗-pipeline > li:not(:last-child)::after {
+  position: absolute;
+  top: 42px;
+  bottom: -8px;
+  left: 26px;
+  width: 1px;
+  background: var(--拾遗-border);
+  content: "";
+}
+
+.拾遗-pipeline__marker {
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  color: var(--拾遗-muted);
+  border: 1px solid var(--拾遗-border);
+  border-radius: 50%;
+  background: var(--拾遗-bg);
+  font-size: 0.78rem;
+}
+
+.拾遗-pipeline__copy {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.拾遗-pipeline__copy small {
+  overflow: hidden;
+  font-size: 0.78rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.拾遗-pipeline__state {
+  color: var(--拾遗-muted);
+  font-size: 0.78rem;
+}
+
+.拾遗-pipeline > li[data-state="active"] .拾遗-pipeline__marker {
+  color: var(--拾遗-text);
+  border-color: var(--拾遗-accent);
+  background: var(--拾遗-accent-soft);
+}
+
+.拾遗-pipeline > li[data-state="done"] .拾遗-pipeline__marker {
+  color: #07150d;
+  border-color: var(--拾遗-success);
+  background: var(--拾遗-success);
+}
+
+.拾遗-pipeline > li[data-state="done"] .拾遗-pipeline__state {
+  color: var(--拾遗-success);
+}
+
+.拾遗-pipeline > li[data-state="failed"] .拾遗-pipeline__marker {
+  color: #241500;
+  border-color: var(--拾遗-warning);
+  background: var(--拾遗-warning);
+}
+
+.拾遗-pipeline > li[data-state="failed"] .拾遗-pipeline__state {
+  color: var(--拾遗-warning);
+}
+
+.拾遗-task-data-shortcut {
+  width: auto;
+  justify-self: start;
+}
+
+.拾遗-module-tabs {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  padding: 2px 1px 6px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+
+.拾遗-module-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.拾遗-module-tab {
+  flex: 0 0 auto;
+  width: auto;
+  min-height: 38px;
+  padding: 6px 11px;
+  border-radius: 999px;
+  scroll-snap-align: start;
+  white-space: nowrap;
+}
+
+.拾遗-record-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.拾遗-record-card > summary {
+  display: grid;
+  gap: 5px;
+  min-height: 58px;
+  padding: 13px 15px;
+  cursor: pointer;
+  list-style-position: inside;
+}
+
+.拾遗-record-card > summary:hover {
+  background: rgb(255 255 255 / 2.5%);
+}
+
+.拾遗-record-card > summary span,
+.拾遗-record-card > summary p {
+  margin: 0;
+  color: var(--拾遗-muted);
+  font-size: 0.82rem;
+}
+
+.拾遗-record-content {
+  padding: 14px 15px;
+  border-top: 1px solid var(--拾遗-border-soft);
+  background: rgb(0 0 0 / 9%);
+  white-space: pre-wrap;
+  line-height: 1.58;
+}
+
+.拾遗-record-actions {
+  padding: 0 14px 14px;
+}
+
+.拾遗-page-actions {
+  padding: 0;
+}
+
+.拾遗-page-actions .拾遗-button {
+  width: auto;
+  min-width: 160px;
+  justify-self: start;
+  white-space: nowrap;
+}
+
+.拾遗-record-actions .拾遗-button,
+.拾遗-overview-actions .拾遗-button,
+.拾遗-two-actions .拾遗-button {
+  white-space: nowrap;
+}
+
+.拾遗-profile-row {
+  grid-template-columns: minmax(160px, 1fr) repeat(3, auto);
+  padding: 0;
+}
+
+.拾遗-section {
+  overflow: hidden;
+}
+
+.拾遗-section__header {
+  display: grid;
+  gap: 3px;
+  padding: 13px 15px;
+  border-bottom: 1px solid var(--拾遗-border-soft);
+  background: rgb(255 255 255 / 1.8%);
+}
+
+.拾遗-section__header strong {
+  font-size: 0.94rem;
+}
+
+.拾遗-section__header small {
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.拾遗-section__body {
+  display: grid;
+  gap: 11px;
+  padding: 14px 15px;
+}
+
+.拾遗-section--privacy {
+  border-color: color-mix(in srgb, var(--拾遗-warning) 36%, transparent);
+}
+
+.拾遗-storage-list {
+  display: grid;
+  gap: 8px;
+}
+
+.拾遗-storage-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--拾遗-border-soft);
+}
+
+.拾遗-storage-row:last-child {
+  border-bottom: 0;
+}
+
+.拾遗-storage-row > div:first-child {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.拾遗-storage-row strong,
+.拾遗-storage-row small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.拾遗-storage-row small {
+  color: var(--拾遗-muted);
+}
+
+.拾遗-field {
+  display: grid;
+  min-width: 0;
+  gap: 6px;
+}
+
+.拾遗-field__label {
+  font-size: 0.86rem;
+  font-weight: 650;
+}
+
+.拾遗-field input,
+.拾遗-field select,
+.拾遗-field textarea,
+.拾遗-profile-row > * {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.拾遗-field input,
+.拾遗-field select,
+.拾遗-field textarea,
+.拾遗-profile-row select {
+  border-radius: 9px;
+}
+
+.拾遗-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.拾遗-checkbox > input {
+  flex: 0 0 auto;
+  width: auto;
+  margin-top: 0.2em;
+}
+
+.拾遗-center-page details > summary {
+  cursor: pointer;
+}
+
+.拾遗-center-page > details {
+  padding: 2px 0 0;
+  border-top: 1px solid var(--拾遗-border-soft);
+}
+
+.拾遗-center-page > details > summary {
+  min-height: 42px;
+  padding: 11px 2px;
+  font-weight: 650;
+}
+
+.拾遗-privacy-warning {
+  color: var(--拾遗-warning);
+  border-color: color-mix(in srgb, var(--拾遗-warning) 46%, transparent);
+  line-height: 1.5;
+}
+
+.拾遗-empty-state {
+  padding: 42px 18px;
+  color: var(--拾遗-muted);
+  border: 1px dashed var(--拾遗-border);
+  border-radius: var(--拾遗-radius-md);
+  text-align: center;
+}
+
+.拾遗-empty-state--error {
+  color: var(--拾遗-danger);
+}
+
+.拾遗-v2-toast {
+  position: fixed;
+  z-index: 10030;
+  right: max(12px, env(safe-area-inset-right));
+  bottom: max(76px, calc(env(safe-area-inset-bottom) + 62px));
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  width: min(330px, calc(100vw - 24px));
+  min-height: 48px;
+  padding: 8px 10px;
+  color: var(--拾遗-text);
+  border: 1px solid var(--拾遗-border);
+  border-radius: 12px;
+  outline: none;
+  background: color-mix(in srgb, var(--拾遗-bg) 96%, transparent);
+  box-shadow: 0 12px 34px rgb(0 0 0 / 45%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+  animation: 拾遗-toast-in 180ms ease-out;
+}
+
+.拾遗-v2-toast:focus-visible {
+  box-shadow:
+    0 12px 34px rgb(0 0 0 / 45%),
+    0 0 0 2px var(--拾遗-accent-soft);
+}
+
+.拾遗-v2-toast__indicator {
+  width: 10px;
+  height: 10px;
+  border: 2px solid color-mix(in srgb, var(--拾遗-accent) 34%, transparent);
+  border-top-color: var(--拾遗-accent);
+  border-radius: 50%;
+  animation: 拾遗-spin 0.9s linear infinite;
+}
+
+.拾遗-v2-toast[data-status="complete"] .拾遗-v2-toast__indicator {
+  border: 0;
+  background: var(--拾遗-success);
+  animation: none;
+}
+
+.拾遗-v2-toast[data-status="failed"] .拾遗-v2-toast__indicator,
+.拾遗-v2-toast[data-status="waiting_for_user"] .拾遗-v2-toast__indicator {
+  border: 0;
+  background: var(--拾遗-warning);
+  animation: none;
+}
+
+.拾遗-v2-toast__copy {
+  display: grid;
+  min-width: 0;
+  gap: 1px;
+  text-align: left;
+}
+
+.拾遗-v2-toast__copy strong,
+.拾遗-v2-toast__copy small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.拾遗-v2-toast__copy strong {
+  font-size: 0.82rem;
+}
+
+.拾遗-v2-toast__copy small {
+  color: var(--拾遗-muted);
+  font-size: 0.72rem;
+}
+
+.拾遗-v2-toast__close {
+  padding: 5px;
+  color: var(--拾遗-muted);
+  font-size: 1.05rem;
+}
+
+.拾遗-chat-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  width: auto;
+  min-width: 0;
+  margin: 0 4px;
+  padding: 5px 9px;
+  border-radius: 999px;
+}
+
+.拾遗-settings-launcher {
+  margin: 8px 0;
+}
+
+.拾遗-settings-launcher .menu_button {
+  width: 100%;
+}
+
+@keyframes 拾遗-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes 拾遗-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes 拾遗-dialog-in {
+  from {
+    opacity: 0;
+    transform: translate3d(var(--拾遗-drag-x), calc(var(--拾遗-drag-y) + 10px), 0)
+      scale(0.985);
+  }
+}
+
+@keyframes 拾遗-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+}
+
+@media (max-width: 700px) {
+  .拾遗-center-overlay {
+    align-items: end;
+    padding: 0;
+    background: rgb(3 4 7 / 57%);
+  }
+
+  .拾遗-center-dialog {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    height: min(92dvh, calc(var(--拾遗-viewport-height, 100dvh) - 8px));
+    min-height: min(560px, calc(var(--拾遗-viewport-height, 100dvh) - 8px));
+    max-height: calc(var(--拾遗-viewport-height, 100dvh) - 8px);
+    resize: none;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: 20px 20px 0 0;
+    transform: translate3d(0, var(--拾遗-sheet-offset), 0);
+  }
+
+  .拾遗-center-header {
+    grid-template-columns: minmax(0, 1fr) auto;
+    min-height: 70px;
+    padding: 17px 12px 8px 15px;
+  }
+
+  .拾遗-center-header::before {
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    width: 38px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 22%);
+    content: "";
+    transform: translateX(-50%);
+  }
+
+  .拾遗-live-status {
+    display: none;
+  }
+
+  .拾遗-center-brand small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .拾遗-center-nav {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    padding: 0 9px 9px;
+    scrollbar-width: none;
+  }
+
+  .拾遗-center-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .拾遗-tab {
+    flex: 1 0 67px;
+    flex-direction: column;
+    gap: 2px;
+    min-height: 48px;
+    padding: 5px 7px;
+    font-size: 0.72rem;
+  }
+
+  .拾遗-tab i {
+    font-size: 0.88rem;
+  }
+
+  .拾遗-center-page {
+    gap: 12px;
+    padding: 13px 12px calc(22px + env(safe-area-inset-bottom));
+  }
+
+  .拾遗-button,
+  .拾遗-center-page details > summary,
+  .拾遗-field input,
+  .拾遗-field select {
+    min-height: 44px;
+  }
+
+  .拾遗-metric-grid {
+    gap: 7px;
+  }
+
+  .拾遗-metric-card {
+    padding: 10px;
+  }
+
+  .拾遗-metric-card strong {
+    font-size: 1rem;
+  }
+
+  .拾遗-metric-card span {
+    font-size: 0.68rem;
+  }
+
+  .拾遗-module-progress-list {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .拾遗-module-progress {
+    min-height: 44px;
+  }
+
+  .拾遗-profile-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .拾遗-profile-row > select {
+    grid-column: 1 / -1;
+  }
+
+  .拾遗-two-actions,
+  .拾遗-record-actions,
+  .拾遗-overview-actions,
+  .拾遗-backfill-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .拾遗-storage-row {
+    grid-template-columns: 1fr;
+  }
+
+  .拾遗-page-actions .拾遗-button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .拾遗-pipeline > li {
+    grid-template-columns: 32px minmax(0, 1fr) auto;
+    gap: 9px;
+    min-height: 60px;
+    padding-right: 3px;
+    padding-left: 3px;
+  }
+
+  .拾遗-pipeline > li:not(:last-child)::after {
+    left: 18px;
+  }
+
+  .拾遗-pipeline__copy small {
+    white-space: normal;
+  }
+
+  .拾遗-v2-toast {
+    right: max(8px, env(safe-area-inset-right));
+    bottom: max(68px, calc(env(safe-area-inset-bottom) + 56px));
+    width: min(300px, calc(100vw - 16px));
+    min-height: 44px;
+    padding: 7px 9px;
+  }
+
+  .拾遗-chat-entry {
+    min-width: 38px;
+    min-height: 38px;
+    justify-content: center;
+    padding: 5px 8px;
+  }
+
+  .拾遗-chat-entry span {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .拾遗-center-brand strong {
+    font-size: 0.93rem;
+  }
+
+  .拾遗-tab {
+    flex-basis: 61px;
+  }
+
+  .拾遗-status-card--hero,
+  .拾遗-section__body {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .拾遗-center-overlay,
+  .拾遗-center-dialog,
+  .拾遗-v2-toast,
+  .拾遗-progress-value,
+  .拾遗-button {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* ============================================================================
+   拾遗 · UI 重设计 + 多主题（追加段）
+   由 CodeBuddy 于 2026-10-16 追加，不改动上方原有规则（原规则作为兜底）。
+   组成：
+     1) 设计令牌（间距/动效曲线/滚动条）
+     2) 修复：模块标签行横向裁切（原为单行横向滚动 + 隐藏滚动条 → 最后一项显示不全）
+     3) 结构精修：header 4 列（容纳主题切换器）、导航下划线指示、卡片层次
+     4) 主题：light（白天）/ day（日间）/ ink（墨韵 · 自设计）
+        主题属性挂在 body 或 .拾遗-center-overlay 上均生效
+   ========================================================================= */
+
+/* ---------- 1) 设计令牌 ---------- */
+:root {
+  --拾遗-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --拾遗-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --拾遗-gap-xs: 6px;
+  --拾遗-gap-sm: 10px;
+  --拾遗-gap-md: 14px;
+  --拾遗-gap-lg: 20px;
+  --拾遗-ring: 0 0 0 2px color-mix(in srgb, var(--拾遗-accent) 42%, transparent);
+}
+
+/* ---------- 2) 修复：模块标签行必须全部可见 ----------
+   原因：原本 display:flex 不换行 + overflow-x:auto + 隐藏滚动条，
+   7 个模块（最后一个是「伏笔与长期影响」）会超出容器且看不出可横向滚动。
+   方案：允许换行 + 自适应宽度，标签永不裁切。 */
+.拾遗-module-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 2px 1px 6px;
+  overflow: visible;
+  scroll-snap-type: none;
+}
+
+.拾遗-module-tab {
+  flex: 0 1 auto;
+  max-width: 100%;
+  min-width: 0;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  line-height: 1.25;
+  text-align: center;
+}
+
+/* 主题生效时：把「被酒馆按钮样式带进来的深底」统一压平（三套主题共用，
+   特异性 0,3,0 > 酒馆 .menu_button 之类，无需 !important） */
+[data-拾遗-theme] .拾遗-center-dialog .拾遗-tab,
+[data-拾遗-theme] .拾遗-center-dialog .拾遗-module-tab,
+[data-拾遗-theme] .拾遗-center-dialog .拾遗-button,
+[data-拾遗-theme] .拾遗-center-dialog .拾遗-icon-button,
+[data-拾遗-theme] .拾遗-center-dialog .拾遗-theme-switch {
+  color: var(--拾遗-text) !important;
+  border-color: var(--拾遗-border-soft) !important;
+  background: color-mix(in srgb, var(--拾遗-surface) 88%, transparent) !important;
+}
+
+[data-拾遗-theme] .拾遗-center-dialog .拾遗-tab.active,
+[data-拾遗-theme] .拾遗-center-dialog .拾遗-module-tab.active {
+  color: var(--拾遗-text) !important;
+  border-color: color-mix(in srgb, var(--拾遗-accent) 52%, transparent) !important;
+  background: var(--拾遗-accent-soft) !important;
+}
+
+[data-拾遗-theme] .拾遗-center-dialog .拾遗-tab:hover,
+[data-拾遗-theme] .拾遗-center-dialog .拾遗-module-tab:hover,
+[data-拾遗-theme] .拾遗-center-dialog .拾遗-button:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--拾遗-accent) 46%, var(--拾遗-border-soft)) !important;
+  background: color-mix(in srgb, var(--拾遗-accent) 12%, transparent) !important;
+}
+
+/* 图标按钮（关闭 ×）在浅色下也不要深块 */
+[data-拾遗-theme] .拾遗-center-dialog .拾遗-icon-button {
+  background: color-mix(in srgb, var(--拾遗-surface-raised) 92%, transparent) !important;
+}
+
+[data-拾遗-theme] .拾遗-center-dialog .拾遗-icon-button:hover {
+  background: var(--拾遗-accent-soft) !important;
+}
+
+/* ---------- 3) 结构精修 ---------- */
+.拾遗-center-header {
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  min-height: 78px;
+  padding: 14px 16px 12px 20px;
+}
+
+.拾遗-center-brand {
+  position: relative;
+  padding-left: 12px;
+}
+
+.拾遗-center-brand::before {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 0;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--拾遗-accent), transparent);
+  content: "";
+}
+
+.拾遗-center-brand strong {
+  letter-spacing: 0.015em;
+}
+
+.拾遗-center-brand small {
+  overflow: hidden;
+  font-size: 0.76rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 主题切换器 */
+.拾遗-theme-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px;
+  border: 1px solid var(--拾遗-border-soft);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--拾遗-surface) 62%, transparent);
+}
+
+.拾遗-theme-dot {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    transform 140ms var(--拾遗-ease),
+    box-shadow 140ms var(--拾遗-ease);
+}
+
+.拾遗-theme-dot::after {
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  content: "";
+}
+
+.拾遗-theme-dot[data-theme="auto"]::after {
+  background: conic-gradient(from 210deg, #93a0b8, #e7ecf5, #7d8798);
+}
+
+.拾遗-theme-dot[data-theme="light"]::after {
+  background: linear-gradient(135deg, #ffffff 12%, #c8d4ee);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 14%);
+}
+
+.拾遗-theme-dot[data-theme="day"]::after {
+  background: linear-gradient(135deg, #ffe9c7, #e2a25a);
+}
+
+.拾遗-theme-dot[data-theme="ink"]::after {
+  background: linear-gradient(135deg, #123033 22%, #4fb0a5 78%);
+}
+
+.拾遗-theme-dot:hover {
+  transform: translateY(-1px) scale(1.06);
+}
+
+.拾遗-theme-dot.active {
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--拾遗-accent) 62%, transparent),
+    0 2px 8px rgb(0 0 0 / 28%);
+}
+
+.拾遗-theme-dot:focus-visible {
+  box-shadow: var(--拾遗-ring);
+}
+
+/* 导航：激活项加下划线指示 */
+.拾遗-center-nav {
+  gap: 4px;
+  padding: 0 14px 10px;
+}
+
+.拾遗-tab {
+  position: relative;
+  border-radius: 10px 10px 8px 8px;
+}
+
+.拾遗-tab.active::after {
+  position: absolute;
+  right: 12px;
+  bottom: 4px;
+  left: 12px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--拾遗-accent), transparent);
+  content: "";
+}
+
+/* 卡片与列表层次 */
+.拾遗-record-card {
+  transition:
+    border-color 160ms var(--拾遗-ease),
+    transform 160ms var(--拾遗-ease),
+    box-shadow 160ms var(--拾遗-ease);
+}
+
+.拾遗-record-card > summary {
+  border-radius: inherit;
+  transition: background 160ms var(--拾遗-ease);
+}
+
+.拾遗-record-card:hover {
+  border-color: color-mix(in srgb, var(--拾遗-accent) 34%, var(--拾遗-border-soft));
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgb(0 0 0 / 22%);
+}
+
+.拾遗-record-card[open] {
+  border-color: color-mix(in srgb, var(--拾遗-accent) 46%, var(--拾遗-border-soft));
+  box-shadow: 0 12px 30px rgb(0 0 0 / 26%);
+}
+
+.拾遗-record-card > summary strong {
+  font-size: 0.98rem;
+  letter-spacing: 0.01em;
+}
+
+/* 进度条：细流光 */
+.拾遗-progress-value {
+  position: relative;
+  overflow: hidden;
+}
+
+.拾遗-progress-value::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 34%), transparent);
+  transform: translateX(-100%);
+  animation: 拾遗-sheen 2.6s var(--拾遗-ease-out) infinite;
+  content: "";
+}
+
+@keyframes 拾遗-sheen {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* 滚动条精修 */
+.拾遗-center-body {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--拾遗-accent) 34%, transparent) transparent;
+}
+
+.拾遗-center-body::-webkit-scrollbar {
+  width: 9px;
+}
+
+.拾遗-center-body::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--拾遗-accent) 34%, transparent);
+  background-clip: content-box;
+}
+
+.拾遗-center-body::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--拾遗-accent) 56%, transparent);
+  background-clip: content-box;
+}
+
+/* 窄屏：主题切换器只留色点；导航换行 */
+@media (max-width: 720px) {
+
+  .拾遗-center-header {
+    grid-template-columns: minmax(0, 1fr) auto auto auto;
+    gap: 8px;
+    padding-right: 12px;
+    padding-left: 14px;
+  }
+
+  .拾遗-theme-dot {
+    width: 22px;
+    height: 22px;
+  }
+
+  .拾遗-center-nav {
+    grid-template-columns: repeat(3, minmax(72px, 1fr));
+  }
+
+  .拾遗-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---------- 4) 主题 ----------
+   共同点：只覆盖 --拾遗-* 令牌 → 原样式里所有 color-mix(...) 自动跟随。
+   auto（无属性）时沿用原逻辑：跟随酒馆主题。 */
+
+/* —— 白天模式：通透、干净、冷调 —— */
+[data-拾遗-theme="light"] {
+  --拾遗-bg: #f6f7fb;
+  --拾遗-surface: #ffffff;
+  --拾遗-surface-raised: #ffffff;
+  --拾遗-border: #d5d9e6;
+  --拾遗-border-soft: #e5e8f2;
+  --拾遗-text: #1b1f2b;
+  --拾遗-muted: #666e80;
+  --拾遗-accent: #4f7cff;
+  --拾遗-accent-soft: rgb(79 124 255 / 13%);
+  --拾遗-success: #17915a;
+  --拾遗-warning: #c1750f;
+  --拾遗-danger: #d2453d;
+  --拾遗-shadow: 0 20px 54px rgb(24 33 66 / 18%), 0 1px 0 rgb(255 255 255 / 90%) inset;
+}
+
+[data-拾遗-theme="light"] .拾遗-center-overlay {
+  background: rgb(233 236 245 / 74%);
+}
+
+[data-拾遗-theme="light"] .拾遗-record-content {
+  background: #f4f6fc;
+}
+
+[data-拾遗-theme="light"] .拾遗-live-status,
+[data-拾遗-theme="light"] .拾遗-metric-card,
+[data-拾遗-theme="light"] .拾遗-module-progress,
+[data-拾遗-theme="light"] .拾遗-section__header {
+  background: rgb(17 24 39 / 3.5%);
+}
+
+[data-拾遗-theme="light"] .拾遗-progress-track {
+  background: rgb(17 24 39 / 9%);
+}
+
+[data-拾遗-theme="light"] .拾遗-record-card:hover {
+  box-shadow: 0 12px 30px rgb(24 33 66 / 16%);
+}
+
+/* —— 日间模式：暖阳、奶油底、琥珀强调 —— */
+[data-拾遗-theme="day"] {
+  --拾遗-bg: #fbf5ec;
+  --拾遗-surface: #fffaf2;
+  --拾遗-surface-raised: #fffdf8;
+  --拾遗-border: #e3d3bb;
+  --拾遗-border-soft: #efe3d2;
+  --拾遗-text: #3b2f23;
+  --拾遗-muted: #87755f;
+  --拾遗-accent: #df7c39;
+  --拾遗-accent-soft: rgb(223 124 57 / 15%);
+  --拾遗-success: #3f8f5f;
+  --拾遗-warning: #c3721b;
+  --拾遗-danger: #bf5342;
+  --拾遗-shadow: 0 22px 56px rgb(126 90 43 / 20%), 0 1px 0 rgb(255 255 255 / 80%) inset;
+}
+
+[data-拾遗-theme="day"] .拾遗-center-overlay {
+  background: rgb(247 235 216 / 72%);
+}
+
+[data-拾遗-theme="day"] .拾遗-center-dialog {
+  background:
+    radial-gradient(circle at 88% -10%, rgb(255 214 150 / 42%), transparent 42%),
+    radial-gradient(circle at 6% 4%, var(--拾遗-accent-soft), transparent 36%),
+    var(--拾遗-bg);
+}
+
+[data-拾遗-theme="day"] .拾遗-record-content {
+  background: #fbf2e5;
+}
+
+[data-拾遗-theme="day"] .拾遗-live-status,
+[data-拾遗-theme="day"] .拾遗-metric-card,
+[data-拾遗-theme="day"] .拾遗-module-progress,
+[data-拾遗-theme="day"] .拾遗-section__header {
+  background: rgb(120 78 30 / 5%);
+}
+
+[data-拾遗-theme="day"] .拾遗-progress-track {
+  background: rgb(120 78 30 / 12%);
+}
+
+/* —— 墨韵（自设计）：墨底 · 宣纸白 · 石青主色 · 朱砂重音 ——
+   理念：把「记忆」呈现为一册水墨卷宗 —— 深墨青底如夜色砚池，文字取宣纸暖白，
+   主色用石青（青金）作"墨色的冷调延伸"，仅以朱砂点出错误/警示（印泥意象）；
+   标题统一衬线字（宋体系）以呼应卷册感，正文保持无衬线保证长文可读；
+   动效克制、留白充足，强调"静"。 */
+[data-拾遗-theme="ink"] {
+  --拾遗-bg: #0e1316;
+  --拾遗-surface: #151d21;
+  --拾遗-surface-raised: #1a2429;
+  --拾遗-border: #2c3b42;
+  --拾遗-border-soft: #223037;
+  --拾遗-text: #e9e3d5;
+  --拾遗-muted: #94a3a5;
+  --拾遗-accent: #4fb0a5;
+  --拾遗-accent-soft: rgb(79 176 165 / 17%);
+  --拾遗-success: #6cb98d;
+  --拾遗-warning: #d5a441;
+  --拾遗-danger: #c9564a;
+  --拾遗-shadow: 0 28px 74px rgb(0 0 0 / 68%), 0 1px 0 rgb(255 255 255 / 5%) inset;
+}
+
+[data-拾遗-theme="ink"] .拾遗-center-overlay {
+  background: rgb(5 8 10 / 72%);
+  backdrop-filter: blur(10px) saturate(0.82);
+  -webkit-backdrop-filter: blur(10px) saturate(0.82);
+}
+
+[data-拾遗-theme="ink"] .拾遗-center-dialog {
+  background:
+    radial-gradient(circle at 86% -6%, rgb(79 176 165 / 16%), transparent 46%),
+    radial-gradient(circle at 4% 100%, rgb(201 86 74 / 8%), transparent 40%),
+    repeating-linear-gradient(135deg, rgb(255 255 255 / 1.4%) 0 2px, transparent 2px 6px),
+    var(--拾遗-bg);
+}
+
+[data-拾遗-theme="ink"] .拾遗-center-brand strong,
+[data-拾遗-theme="ink"] .拾遗-status-card--hero > strong,
+[data-拾遗-theme="ink"] .拾遗-section__header strong,
+[data-拾遗-theme="ink"] .拾遗-record-card > summary strong,
+[data-拾遗-theme="ink"] .拾遗-empty-state {
+  font-family: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong", serif;
+  letter-spacing: 0.06em;
+}
+
+[data-拾遗-theme="ink"] .拾遗-center-brand::before {
+  background: linear-gradient(180deg, var(--拾遗-accent), rgb(201 86 74 / 60%), transparent);
+}
+
+[data-拾遗-theme="ink"] .拾遗-record-content {
+  background: rgb(0 0 0 / 26%);
+  border-top-color: rgb(79 176 165 / 22%);
+}
+
+[data-拾遗-theme="ink"] .拾遗-live-status,
+[data-拾遗-theme="ink"] .拾遗-metric-card,
+[data-拾遗-theme="ink"] .拾遗-module-progress {
+  background: rgb(255 255 255 / 2.4%);
+}
+
+[data-拾遗-theme="ink"] .拾遗-section__header {
+  background: linear-gradient(90deg, rgb(79 176 165 / 8%), transparent 60%);
+}
+
+[data-拾遗-theme="ink"] .拾遗-tab.active,
+[data-拾遗-theme="ink"] .拾遗-module-tab.active,
+[data-拾遗-theme="ink"] .拾遗-primary {
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 6%) inset,
+    0 0 18px rgb(79 176 165 / 18%);
+}
+
+[data-拾遗-theme="ink"] .拾遗-progress-track {
+  background: rgb(255 255 255 / 7%);
+}
+
+/* ===== 拾遗手机端交互优化（2026-10-18 追加） ===== */
+@media (max-width: 720px) {
+  .拾遗-chat-entry,
+  .拾遗-button,
+  .拾遗-tab,
+  .拾遗-module-tab,
+  .拾遗-center-nav a,
+  .拾遗-center-page details > summary,
+  .拾遗-field input,
+  .拾遗-field select,
+  .拾遗-primary,
+  .拾遗-checkbox {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .拾遗-center-page {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .拾遗-center-nav {
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .拾遗-center-dialog {
+    overscroll-behavior-y: contain;
+    backface-visibility: hidden;
+  }
+}
+
+/* ===== 拾遗手机端入口可见性（2026-10-18 追加） ===== */
+@media (max-width: 700px) {
+  /* 聊天栏按钮：保留「拾遗」文字，不再只剩一个图标 */
+  .拾遗-chat-entry span {
+    display: inline;
+    max-width: 4.2em;
+    overflow: hidden;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .拾遗-chat-entry {
+    gap: 3px;
+    min-width: auto;
+    min-height: 38px;
+    padding: 4px 8px;
+    border: 1px solid rgb(140 190 255 / 45%);
+    box-shadow: 0 0 0 1px rgb(140 190 255 / 12%) inset;
+  }
+
+  /* 扩展设置里的启动按钮：加大一点，便于点中 */
+  .拾遗-settings-launcher .menu_button {
+    width: 100%;
+    min-height: 44px;
+    justify-content: center;
+    font-size: 0.95rem;
+  }
+}
+
+/* ===== 拾遗 · INS 简约风格 v2 ===== */
+:root {
+  --拾遗-bg: #fafafa;
+  --拾遗-surface: #ffffff;
+  --拾遗-text: #1c1c1e;
+  --拾遗-muted: #8e8e8e;
+  --拾遗-line: #efefef;
+  --拾遗-line-strong: #e3e3e3;
+  --拾遗-accent: #4f7cff;
+  --拾遗-radius-sm: 8px;
+  --拾遗-radius-md: 12px;
+  --拾遗-radius-lg: 20px;
+  --拾遗-s1: 4px; --拾遗-s2: 8px; --拾遗-s3: 12px;
+  --拾遗-s4: 16px; --拾遗-s5: 24px; --拾遗-s6: 32px;
+}
+
+/* ---------- 1. 全局字体 ---------- */
+.拾遗-center-dialog {
+  font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei",
+               "Noto Sans SC", "Helvetica Neue", sans-serif !important;
+  letter-spacing: -0.005em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 仅让文本类元素继承面板字体；不触碰 i / ::before，避免覆盖 FontAwesome 字体导致图标变豆腐 */
+.拾遗-center-dialog button,
+.拾遗-center-dialog input,
+.拾遗-center-dialog textarea,
+.拾遗-center-dialog select,
+.拾遗-center-dialog p,
+.拾遗-center-dialog span:not([class*="fa-"]),
+.拾遗-center-dialog small,
+.拾遗-center-dialog strong,
+.拾遗-center-dialog h3,
+.拾遗-center-dialog h4,
+.拾遗-center-dialog label {
+  font-family: inherit !important;
+}
+
+/* ---------- 2. 遮罩：轻、不糊 ---------- */
+.拾遗-center-overlay {
+  padding: 0 !important;
+  background: rgb(0 0 0 / 38%) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ---------- 3. 弹窗：桌面 = 顶部标题 + 左侧竖栏 + 右侧内容 ---------- */
+.拾遗-center-dialog {
+  display: grid !important;
+  grid-template-columns: 208px minmax(0, 1fr) !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  /* ⚠️ width / height 刻意不加 !important：
+     JS 会在面板上内联写 width/height，而带 !important 的声明优先级高于普通内联样式，
+     会导致浏览器拖拽缩放手柄时写入的尺寸失效 —— 手柄"拖不动"的原因就是这个。
+     这里只给默认值，实际尺寸以内联样式（用户拖拽后保存的值）为准。 */
+  width: min(1080px, 94vw);
+  height: min(88dvh, 940px);
+  /* 下面两个下界保留 !important，只限制"太小"，不会阻止缩小操作本身 */
+  min-width: 520px !important;
+  min-height: 420px !important;
+  max-width: 94vw !important;
+  max-height: 92dvh !important;
+  overflow: hidden !important;
+  resize: both !important;
+  border: 0 !important;
+  border-radius: var(--拾遗-radius-lg) !important;
+  background: var(--拾遗-surface) !important;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 6%), 0 28px 72px rgb(0 0 0 / 20%) !important;
+}
+
+/* ---------- 4. 头部：大标题（跨两列） ---------- */
+.拾遗-center-dialog .拾遗-center-header {
+  grid-column: 1 / -1 !important;
+  grid-row: 1 !important;
+  min-height: auto !important;
+  padding: var(--拾遗-s5) var(--拾遗-s5) 18px !important;
+  border-bottom: 1px solid var(--拾遗-line) !important;
+  background: var(--拾遗-surface) !important;
+  cursor: grab !important;
+  gap: var(--拾遗-s3) !important;
+}
+
+/* 拖拽中给出「抓取」光标，与头部绑定的拖拽交互保持一致 */
+.拾遗-center-dialog .拾遗-center-header:active,
+.拾遗-center-dialog.拾遗-center-dialog--dragging .拾遗-center-header {
+  cursor: grabbing !important;
+}
+
+#拾遗-center-title {
+  font-size: 27px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.035em !important;
+  color: var(--拾遗-text) !important;
+}
+
+.拾遗-center-dialog .拾遗-center-brand small {
+  display: block !important;
+  margin-top: 6px !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  color: var(--拾遗-muted) !important;
+  letter-spacing: 0 !important;
+}
+
+/* 主题色点：整组移除（旧设计残留，不再需要） */
+.拾遗-center-dialog .拾遗-theme-switch { display: none !important; }
+
+/* 状态胶囊 */
+.拾遗-center-dialog .拾遗-live-status {
+  padding: 4px 10px !important;
+  border: 1px solid var(--拾遗-line) !important;
+  border-radius: 999px !important;
+  background: var(--拾遗-bg) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: var(--拾遗-muted) !important;
+}
+
+/* 关闭 */
+.拾遗-center-dialog .拾遗-icon-button {
+  width: 32px !important;
+  height: 32px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  color: var(--拾遗-muted) !important;
+  box-shadow: none !important;
+  font-size: 18px !important;
+}
+.拾遗-center-dialog .拾遗-icon-button:hover {
+  background: var(--拾遗-bg) !important;
+  color: var(--拾遗-text) !important;
+}
+
+/* ---------- 5. 导航：桌面左侧竖栏 ---------- */
+.拾遗-center-dialog .拾遗-center-nav {
+  grid-column: 1 !important;
+  grid-row: 2 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  padding: 14px 12px !important;
+  border: 0 !important;
+  border-right: 1px solid var(--拾遗-line) !important;
+  background: var(--拾遗-bg) !important;
+  overflow-y: auto !important;
+  scrollbar-width: none;
+}
+.拾遗-center-dialog .拾遗-center-nav::-webkit-scrollbar { display: none; }
+
+.拾遗-center-dialog .拾遗-tab {
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 9px !important;
+  margin: 0 !important;
+  padding: 10px 12px !important;
+  border: 0 !important;
+  border-radius: var(--拾遗-radius-sm) !important;
+  background: transparent !important;
+  color: var(--拾遗-muted) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  text-align: left !important;
+  box-shadow: none !important;
+  transition: background 120ms ease, color 120ms ease;
+}
+.拾遗-center-dialog .拾遗-tab i { font-size: 13px !important; opacity: 0.9 !important; width: 16px !important; }
+.拾遗-center-dialog .拾遗-tab:hover { color: var(--拾遗-text) !important; }
+
+.拾遗-center-dialog .拾遗-tab.active {
+  background: var(--拾遗-surface) !important;
+  color: var(--拾遗-text) !important;
+  font-weight: 600 !important;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 5%) !important;
+}
+.拾遗-center-dialog .拾遗-tab.active::after { display: none !important; }
+
+/* ---------- 6. 内容区 ---------- */
+.拾遗-center-dialog .拾遗-center-body {
+  grid-column: 2 !important;
+  grid-row: 2 !important;
+  padding: var(--拾遗-s6) !important;
+  background: var(--拾遗-surface) !important;
+  overflow-y: auto !important;
+}
+.拾遗-center-dialog .拾遗-center-page > * + * { margin-top: var(--拾遗-s4) !important; }
+
+/* ---------- 7. 卡片：白底 + 极浅描边（INS 列表感） ---------- */
+.拾遗-center-dialog .拾遗-status-card,
+.拾遗-center-dialog .拾遗-backfill-card,
+.拾遗-center-dialog .拾遗-information-box,
+.拾遗-center-dialog .拾遗-failure-box,
+.拾遗-center-dialog .拾遗-section,
+.拾遗-center-dialog .拾遗-record-card {
+  padding: 20px !important;
+  border: 1px solid var(--拾遗-line) !important;
+  border-radius: 14px !important;
+  background: var(--拾遗-surface) !important;
+  box-shadow: none !important;
+}
+.拾遗-center-dialog .拾遗-status-card--hero { padding: var(--拾遗-s5) !important; }
+
+.拾遗-center-dialog .拾遗-status-card h3,
+.拾遗-center-dialog .拾遗-section h3,
+.拾遗-center-dialog .拾遗-section h4 {
+  margin: 0 0 6px !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  color: var(--拾遗-text) !important;
+}
+.拾遗-center-dialog .拾遗-status-card p,
+.拾遗-center-dialog .拾遗-section p {
+  margin: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.65 !important;
+  color: var(--拾遗-muted) !important;
+}
+
+/* ---------- 8. 指标：三栏数字（INS 主页统计感） ---------- */
+.拾遗-center-dialog .拾遗-metric-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 1px !important;
+  padding: 0 !important;
+  border: 1px solid var(--拾遗-line) !important;
+  border-radius: 14px !important;
+  background: var(--拾遗-line) !important;
+  overflow: hidden !important;
+}
+.拾遗-center-dialog .拾遗-metric-grid > * {
+  padding: 18px 16px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--拾遗-surface) !important;
+  box-shadow: none !important;
+  text-align: center !important;
+}
+.拾遗-center-dialog .拾遗-metric-grid strong {
+  display: block !important;
+  font-size: 26px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  color: var(--拾遗-text) !important;
+  line-height: 1.15 !important;
+}
+.拾遗-center-dialog .拾遗-metric-grid span {
+  display: block !important;
+  margin-top: 4px !important;
+  font-size: 12px !important;
+  color: var(--拾遗-muted) !important;
+}
+
+/* ---------- 9. 按钮 ---------- */
+.拾遗-center-dialog .拾遗-button {
+  padding: 9px 16px !important;
+  border: 1px solid var(--拾遗-line-strong) !important;
+  border-radius: 10px !important;
+  background: var(--拾遗-surface) !important;
+  color: var(--拾遗-text) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  width: auto !important;
+  box-shadow: none !important;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+.拾遗-center-dialog .拾遗-button:hover {
+  background: #f7f7f7 !important;
+  border-color: #d8d8d8 !important;
+}
+
+.拾遗-center-dialog .拾遗-overview-actions,
+.拾遗-center-dialog .拾遗-page-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: var(--拾遗-s2) !important;
+}
+.拾遗-center-dialog .拾遗-overview-actions > *,
+.拾遗-center-dialog .拾遗-page-actions > * {
+  flex: 0 0 auto !important;
+  width: auto !important;
+}
+
+/* ---------- 10. 表单 ---------- */
+.拾遗-center-dialog .拾遗-center-body input[type="text"],
+.拾遗-center-dialog .拾遗-center-body input[type="number"],
+.拾遗-center-dialog .拾遗-center-body input[type="password"],
+.拾遗-center-dialog .拾遗-center-body textarea,
+.拾遗-center-dialog .拾遗-center-body select {
+  padding: 10px 12px !important;
+  border: 1px solid var(--拾遗-line-strong) !important;
+  border-radius: var(--拾遗-radius-sm) !important;
+  background: var(--拾遗-surface) !important;
+  color: var(--拾遗-text) !important;
+  font-size: 14px !important;
+  box-shadow: none !important;
+}
+.拾遗-center-dialog .拾遗-center-body input:focus,
+.拾遗-center-dialog .拾遗-center-body textarea:focus,
+.拾遗-center-dialog .拾遗-center-body select:focus {
+  border-color: #b9b9b9 !important;
+  outline: none !important;
+}
+
+/* ---------- 11. 进度列表：细线分隔 ---------- */
+.拾遗-center-dialog .拾遗-module-progress-list { display: grid !important; gap: 0 !important; }
+.拾遗-center-dialog .拾遗-module-progress-list > * {
+  padding: 12px 0 !important;
+  border-top: 1px solid var(--拾遗-line) !important;
+}
+.拾遗-center-dialog .拾遗-module-progress-list > *:first-child {
+  padding-top: 0 !important;
+  border-top: 0 !important;
+}
+
+/* ---------- 12. 记录列表 ---------- */
+.拾遗-center-dialog .拾遗-record-list { display: grid !important; gap: var(--拾遗-s2) !important; }
+
+/* ---------- 13. 移动端：全屏 + 底部 Tab Bar ---------- */
+@media (max-width: 720px) {
+  .拾遗-center-dialog {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: auto minmax(0, 1fr) auto !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    border-radius: 0 !important;
+    resize: none !important;
+  }
+  .拾遗-center-dialog .拾遗-center-header {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    padding: 14px 16px 12px !important;
+  }
+  #拾遗-center-title { font-size: 20px !important; }
+  .拾遗-center-dialog .拾遗-center-brand small { font-size: 12px !important; margin-top: 3px !important; }
+
+  .拾遗-center-dialog .拾遗-center-body {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    padding: 16px !important;
+    background: var(--拾遗-bg) !important;
+  }
+  .拾遗-center-dialog .拾遗-center-page > * + * { margin-top: 12px !important; }
+
+  .拾遗-center-dialog .拾遗-center-nav {
+    grid-column: 1 !important;
+    grid-row: 3 !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    gap: 0 !important;
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px)) !important;
+    border-right: 0 !important;
+    border-top: 1px solid var(--拾遗-line) !important;
+    background: var(--拾遗-surface) !important;
+  }
+  .拾遗-center-dialog .拾遗-tab {
+    flex: 1 1 0 !important;
+    width: auto !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    padding: 6px 2px !important;
+    font-size: 10px !important;
+    border-radius: var(--拾遗-radius-sm) !important;
+    text-align: center !important;
+  }
+  .拾遗-center-dialog .拾遗-tab i { display: block !important; font-size: 17px !important; width: auto !important; }
+  .拾遗-center-dialog .拾遗-tab.active { background: transparent !important; box-shadow: none !important; color: var(--拾遗-text) !important; }
+
+  .拾遗-center-dialog .拾遗-metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .拾遗-center-dialog .拾遗-metric-grid > * { padding: 14px 8px !important; }
+  .拾遗-center-dialog .拾遗-metric-grid strong { font-size: 20px !important; }
+  .拾遗-center-dialog .拾遗-metric-grid span { font-size: 10px !important; }
+
+  .拾遗-center-dialog .拾遗-status-card,
+  .拾遗-center-dialog .拾遗-backfill-card,
+  .拾遗-center-dialog .拾遗-information-box,
+  .拾遗-center-dialog .拾遗-failure-box,
+  .拾遗-center-dialog .拾遗-section,
+  .拾遗-center-dialog .拾遗-record-card { padding: 14px !important; }
+
+  .拾遗-center-dialog .拾遗-button { padding: 9px 14px !important; min-height: 38px !important; }
+}
+
+/* ===== 拾遗 · INS v3 微调 ===== */
+/* 导航底座：纯中性灰（覆盖旧主题的偏蓝灰） */
+.拾遗-center-dialog .拾遗-center-nav {
+  background: #fafafa !important;
+  border-right: 1px solid #efefef !important;
+}
+
+/* 选中项：浅灰底 + 黑字（不用强调色，彻底脱离旧设计语言） */
+.拾遗-center-dialog .拾遗-center-nav .拾遗-tab.active {
+  background: #f0f0f0 !important;
+  color: #1c1c1e !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+}
+.拾遗-center-dialog .拾遗-center-nav .拾遗-tab.active::after { display: none !important; }
+.拾遗-center-dialog .拾遗-center-nav .拾遗-tab:hover {
+  background: #f4f4f4 !important;
+  color: #1c1c1e !important;
+}
+
+/* 模块进度列表：单列（原来 2 列太挤） */
+.拾遗-center-dialog .拾遗-module-progress-list {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 0 !important;
+}
+
+/* 模块目标签与状态行：左右分布、留呼吸 */
+.拾遗-center-dialog .拾遗-module-progress-list > * {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  padding: 12px 0 !important;
+  border-top: 1px solid #f2f2f2 !important;
+  font-size: 13px !important;
+}
+.拾遗-center-dialog .拾遗-module-progress-list > *:first-child {
+  padding-top: 0 !important;
+  border-top: 0 !important;
+}
+
+/* 正文底色：纯白（旧值偏蓝灰 #f6f7fb） */
+.拾遗-center-dialog .拾遗-center-body {
+  background: #ffffff !important;
+}
+
+/* 遮罩后的弹窗圆角与描边，确保不被旧规则压回 */
+.拾遗-center-dialog {
+  border-radius: 20px !important;
+  background: #ffffff !important;
+}
+
+@media (max-width: 720px) {
+  .拾遗-center-dialog .拾遗-center-nav {
+    background: #ffffff !important;
+    border-right: 0 !important;
+    border-top: 1px solid #efefef !important;
+  }
+  .拾遗-center-dialog .拾遗-center-nav .拾遗-tab.active {
+    background: transparent !important;
+    color: #1c1c1e !important;
+    box-shadow: none !important;
+  }
+  .拾遗-center-dialog .拾遗-center-body { background: #fafafa !important; }
+}
+
+/* ===== 拾遗 · INS v7 统一覆盖 ===== */
+/* —— 模块进度行：白底 + 细线分隔（压掉主题注入的灰底色块） —— */
+[data-拾遗-theme] .拾遗-center-dialog .拾遗-module-progress,
+[data-拾遗-theme] .拾遗-module-progress,
+.拾遗-center-dialog .拾遗-module-progress-list .拾遗-module-progress,
+.拾遗-center-dialog .拾遗-module-progress {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin: 0 !important;
+  padding: 12px 0 !important;
+  border: 0 !important;
+  border-top: 1px solid #f2f2f2 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+[data-拾遗-theme] .拾遗-module-progress:first-child,
+.拾遗-center-dialog .拾遗-module-progress-list .拾遗-module-progress:first-child {
+  padding-top: 2px !important;
+  border-top: 0 !important;
+}
+
+[data-拾遗-theme] .拾遗-module-progress strong,
+.拾遗-center-dialog .拾遗-module-progress strong {
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: #1c1c1e !important;
+  letter-spacing: -0.01em !important;
+}
+
+[data-拾遗-theme] .拾遗-module-progress span,
+.拾遗-center-dialog .拾遗-module-progress span {
+  font-size: 12px !important;
+  /* 与 v8 保持一致：4.54 对比度，达 WCAG AA，避免同一属性两处 !important 互相压制 */
+  color: #767676 !important;
+}
+
+/* —— 指标卡与状态胶囊：压掉主题灰底 —— */
+[data-拾遗-theme] .拾遗-metric-card {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-拾遗-theme] .拾遗-live-status,
+.拾遗-center-dialog .拾遗-live-status {
+  padding: 4px 10px !important;
+  border: 1px solid #efefef !important;
+  border-radius: 999px !important;
+  background: #fafafa !important;
+  box-shadow: none !important;
+  font-size: 12px !important;
+  color: #8e8e8e !important;
+}
+
+/* —— 分组标题：细线下方分隔，不用色块 —— */
+.拾遗-center-dialog .拾遗-section > h3:first-child,
+.拾遗-center-dialog .拾遗-section > h4:first-child {
+  margin: 0 0 12px !important;
+  padding: 0 0 10px !important;
+  border: 0 !important;
+  border-bottom: 1px solid #f2f2f2 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  color: #8e8e8e !important;
+  letter-spacing: 0.02em !important;
+}
+
+/* ============ 媒体查询统一放最后 ============ */
+@media (max-width: 720px) {
+  /* 导航是 grid 第 3 行（static，不浮层），无需为它预留空间，仅保留收尾留白 */
+  .拾遗-center-dialog .拾遗-center-body {
+    padding-bottom: 16px !important;
+  }
+  .拾遗-center-dialog .拾遗-tab {
+    font-size: 9.5px !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.03em !important;
+    white-space: nowrap !important;
+  }
+  .拾遗-center-dialog .拾遗-tab span {
+    max-width: none !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+}
+
+/* ===== 拾遗 · INS v8 自查修复 ===== */
+/* ① 对比度：次级文字从 #a8a8a8(2.38) 加深到 #767676(约 4.6，达 AA) */
+[data-拾遗-theme] .拾遗-module-progress span,
+.拾遗-center-dialog .拾遗-module-progress span {
+  color: #767676 !important;
+}
+
+[data-拾遗-theme] .拾遗-center-brand small,
+.拾遗-center-dialog .拾遗-center-brand small {
+  color: #6b6b6b !important;
+}
+
+[data-拾遗-theme] .拾遗-metric-grid span,
+.拾遗-center-dialog .拾遗-metric-grid span {
+  color: #6b6b6b !important;
+}
+
+/* ② 去掉剩余渐变，改纯色（不重复旧的装饰语言） */
+.拾遗-center-dialog .拾遗-progress-value {
+  background-image: none !important;
+  background-color: #1c1c1e !important;
+}
+
+.拾遗-center-dialog .拾遗-privacy-warning {
+  background-image: none !important;
+  background-color: #fafafa !important;
+  border: 1px solid #efefef !important;
+  border-radius: 10px !important;
+  color: #6b6b6b !important;
+}
+
+/* ③ hero 卡横向溢出（内部 787 > 757）→ 收束 */
+.拾遗-center-dialog .拾遗-status-card--hero {
+  overflow: hidden !important;
+}
+.拾遗-center-dialog .拾遗-status-card--hero > *,
+.拾遗-center-dialog .拾遗-status-card--hero * {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+.拾遗-center-dialog .拾遗-progress-track,
+.拾遗-center-dialog .拾遗-progress-value {
+  box-sizing: border-box !important;
+}
+
+/* ④ 弹窗阴影收敛（28px/72px/20% → 16px/48px/14%） */
+.拾遗-center-dialog {
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 5%), 0 16px 48px rgb(0 0 0 / 14%) !important;
+}
+
+/* ⑤ 顺手：主题色点的样式规则整体废弃（DOM 已隐藏，规则也清掉视觉残留） */
+.拾遗-center-dialog .拾遗-theme-dot {
+  /* 不用 all:unset（会重置 display/appearance/cursor 等，依赖声明顺序且易闪烁），改为显式归零 */
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* ===== 拾遗 · INS v9 可见性与手柄修复 ===== */
+/* ① 下拉框选项：酒馆主题把 option 设成浅色（适配暗色），在白色面板上完全看不见 → 强制深色白底 */
+.拾遗-center-dialog select,
+.拾遗-center-dialog select option,
+.拾遗-center-dialog optgroup {
+  color: #1c1c1e !important;
+  background-color: #ffffff !important;
+}
+.拾遗-center-dialog select option:checked,
+.拾遗-center-dialog select option:hover {
+  color: #1c1c1e !important;
+  background-color: #f2f2f2 !important;
+}
+
+/* ② 次级说明文字：原来继承到浅灰(#8e8e8e / #a7a39a)，12px 下对比度不足 → 统一加深 */
+.拾遗-center-dialog small,
+.拾遗-center-dialog .拾遗-field small,
+.拾遗-center-dialog .拾遗-section small,
+.拾遗-center-dialog .拾遗-hint {
+  color: #6b6b6b !important;
+}
+.拾遗-center-dialog .拾遗-live-status {
+  color: #6b6b6b !important;
+}
+
+/* ③ 缩放手柄：20px 圆角 + overflow:hidden 会把浏览器原生手柄裁掉 → 右下角收小圆角并给出可见手柄 */
+.拾遗-center-dialog {
+  border-bottom-right-radius: 6px !important;
+}
+.拾遗-center-dialog::-webkit-resizer {
+  background-color: #f5f5f5 !important;
+  background-image: none !important;
+  border-top: 1px solid #e6e6e6 !important;
+  border-left: 1px solid #e6e6e6 !important;
+  border-bottom-right-radius: 6px !important;
+}
