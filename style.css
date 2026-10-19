@@ -898,7 +898,7 @@ body.拾遗-modal-open {
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 720px) {
   .拾遗-center-overlay {
     align-items: end;
     padding: 0;
@@ -2060,9 +2060,9 @@ body.拾遗-modal-open {
   background: #ffffff !important;
 }
 
-/* 遮罩后的弹窗圆角与描边，确保不被旧规则压回 */
+/* 弹窗描边；圆角交给变量，右下角必须小于其他角以露出缩放手柄 */
 .拾遗-center-dialog {
-  border-radius: 20px !important;
+  border-radius: var(--拾遗-radius-lg) var(--拾遗-radius-lg) 6px var(--拾遗-radius-lg) !important;
   background: #ffffff !important;
 }
 
@@ -2273,4 +2273,18 @@ body.拾遗-modal-open {
   border-top: 1px solid #e6e6e6 !important;
   border-left: 1px solid #e6e6e6 !important;
   border-bottom-right-radius: 6px !important;
+}
+
+/* ===== 收起楼层（TauriTavern） =====
+   TT 会把 is_system 楼层照常渲染（原版酒馆直接不渲染），而 hideMessage() 写的是内联样式，
+   一次聊天重绘就被冲掉 —— 结果「记忆已收起」但界面上楼层一个没少。
+   这里用显示层规则兜底；取消隐藏会清掉 is_system，所以不会误伤。 */
+#chat .mes[is_system="true"] {
+  display: none !important;
+}
+
+/* 记忆列表：导出按钮因未勾选隐私确认而禁用时，给一行可见说明（否则按钮"看起来坏了"） */
+.拾遗-storage-hint {
+  color: var(--拾遗-warning);
+  font-size: 0.68rem;
 }
